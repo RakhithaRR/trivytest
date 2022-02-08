@@ -15,7 +15,7 @@ jobs:
         run: |
           ls ${{ github.workspace }}
       - run: echo "🍏 This job's status is ${{ job.status }}."
-      - run: echo "SHA: ${{ github.sha }}."
+      - run: echo "SHA is ${{ github.sha }}."
   trivy-scan:
     runs-on: ubuntu-latest
     steps:

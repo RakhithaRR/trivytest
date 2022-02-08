@@ -22,7 +22,7 @@ jobs:
         uses: actions/checkout@v2
       - name: Build an image from Dockerfile
         run: |
-          docker build -t rakhitha/note:4.1.0 . -f-<<EOF
+          echo -e "
           FROM adoptopenjdk:11.0.10_9-jdk-hotspot-focal
           ARG USER=wso2carbon
           ARG USER_ID=802
@@ -45,7 +45,8 @@ jobs:
 
           USER ${USER_ID}
           WORKDIR ${USER_HOME}
-          EOF
+          " > Dockerfile
+          docker build -t rakhitha/note:4.1.0 . 
 
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master

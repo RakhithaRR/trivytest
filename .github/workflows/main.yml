@@ -28,12 +28,12 @@ jobs:
           ARG USER_ID=802
           ARG USER_GROUP=wso2
           ARG USER_GROUP_ID=802
-          ARG USER_HOME=/home/${USER}
+          ARG USER_HOME=/home/\${USER}
           RUN \
-              groupadd --system -g ${USER_GROUP_ID} ${USER_GROUP} \
-              && useradd --system --create-home --home-dir ${USER_HOME} --no-log-init -g ${USER_GROUP_ID} -u ${USER_ID} ${USER}
+              groupadd --system -g \${USER_GROUP_ID} \${USER_GROUP} \
+              && useradd --system --create-home --home-dir \${USER_HOME} --no-log-init -g \${USER_GROUP_ID} -u \${USER_ID} \${USER}
 
-          COPY --chown=wso2carbon:wso2 modules/distribution/product/target/new.txt ${USER_HOME}/
+          COPY --chown=wso2carbon:wso2 modules/distribution/product/target/new.txt \${USER_HOME}/
 
           RUN \
               apt-get update \
@@ -43,8 +43,8 @@ jobs:
                   unzip \
               && rm -rf /var/lib/apt/lists/*
 
-          USER ${USER_ID}
-          WORKDIR ${USER_HOME}
+          USER \${USER_ID}
+          WORKDIR \${USER_HOME}
           " > Dockerfile
           docker build -t rakhitha/note:4.1.0 . 
 

@@ -22,7 +22,35 @@ jobs:
         uses: actions/checkout@v2
       - name: Build an image from Dockerfile
         run: |
-          cat .github/templates/Dockerfile | docker build -t wso2/wso2am:4.1.0 . -f-
+          docker build -t wso2/wso2am:4.1.0 . -f-<<EOF
+          FROM adoptopenjdk:11.0.10_9-jdk-hotspot-focal
+
+          ARG USER=wso2carbon
+          ARG USER_ID=802
+          ARG USER_GROUP=wso2
+          ARG USER_GROUP_ID=802
+          ARG USER_HOME=/home/${USER}
+
+          # create the non-root user and group
+          RUN \
+              groupadd --system -g ${USER_GROUP_ID} ${USER_GROUP} \
+              && useradd --system --create-home --home-dir ${USER_HOME} --no-log-init -g ${USER_GROUP_ID} -u ${USER_ID} ${USER} \
+
+          COPY --chown=wso2carbon:wso2 modules/distribution/product/target/new.txt ${USER_HOME}/
+
+          # install required packages
+          RUN \
+              apt-get update \
+              && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+                  libxml2-utils \
+                  netcat \
+                  unzip \
+              && rm -rf /var/lib/apt/lists/*
+
+          USER ${USER_ID}
+          WORKDIR ${USER_HOME}
+          EOF
+
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
         with:

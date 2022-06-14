@@ -1,5 +1,6 @@
 name: Carbon Kernel 4.6.x build
 on: [push]
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -23,9 +24,27 @@ jobs:
       - name: Cache Maven
         uses: actions/cache@v3
         with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-maven-
+          path: ~/.m2
+          key: ${{ runner.os }}-m2
+          restore-keys: ${{ runner.os }}-m2
       - name: Build Carbon Kernel
         run: mvn clean install --file pom.xml -Dskip.aspectj=true -Dmaven.test.skip=true -e 
+      - name: Get kernel version
+        run: mvn help:evaluate -Dexpression=project.version -q -DforceStdout > ../CARBON_KERNEL_VERSION_FILE
+      - name: Print carbon.apimgt.version
+        run: |
+          echo $(cat ../CARBON_KERNEL_VERSION_FILE)
+      - name: Checkout carbon-apimgt
+        uses: actions/checkout@v3
+        with:
+          repository: wso2/carbon-apimgt
+          ref: refs/heads/master
+          fetch-depth: '10'
+          path: carbon-apimgt
+      - name Setup JDK 8
+        uses: actions/setup-java@v3
+        with:
+          java-version: 8.0.282+8
+          distribution: 'adopt'
+      - name: Build carbon-apimgt
+        run: mvn clean install -Dcarbon.kernel.version=$(cat ../CARBON_KERNEL_VERSION_FILE) -Dcarbon.kernel.feature.version=$(cat ../CARBON_KERNEL_VERSION_FILE) -fae --file carbon-apimgt/pom.xml -Dskip.aspectj=true -Dmaven.test.skip=true -e

@@ -46,5 +46,11 @@ jobs:
         with:
           java-version: 8.0.282+8
           distribution: 'adopt'
+      - name: Cache Maven
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2
+          restore-keys: ${{ runner.os }}-m2
       - name: Build carbon-apimgt
         run: mvn clean install -Dcarbon.kernel.version=$(cat ../CARBON_KERNEL_VERSION_FILE) -Dcarbon.kernel.feature.version=$(cat ../CARBON_KERNEL_VERSION_FILE) -fae --file carbon-apimgt/pom.xml -Dskip.aspectj=true -Dmaven.test.skip=true -e

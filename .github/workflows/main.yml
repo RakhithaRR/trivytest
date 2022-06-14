@@ -23,8 +23,9 @@ jobs:
       - name: Cache Maven
         uses: actions/cache@v3
         with:
-          path: ~/.m2
-          key: ${{ runner.os }}-m2
-          restore-keys: ${{ runner.os }}-m2
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
       - name: Build Carbon Kernel
         run: mvn clean install --file pom.xml -Dskip.aspectj=true -Dmaven.test.skip=true -e 

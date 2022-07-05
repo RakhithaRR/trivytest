@@ -57,7 +57,7 @@ jobs:
           groupadd --system -g \${USER_GROUP_ID} \${USER_GROUP} \
           && useradd --system --create-home --home-dir \${USER_HOME} --no-log-init -g \${USER_GROUP_ID} -u \${USER_ID} \${USER}
           
-          COPY --chown=wso2carbon:wso2 modules/distribution/product/target/wso2am-4.1.0-SNAPSHOT.zip \${USER_HOME}/
+          COPY --chown=wso2carbon:wso2 product-apim/modules/distribution/product/target/wso2am-4.1.0-SNAPSHOT.zip \${USER_HOME}/
           
           RUN \
           apt-get update \

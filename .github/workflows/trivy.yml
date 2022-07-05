@@ -41,7 +41,7 @@ jobs:
           java-version: 8.0.282+8
           distribution: 'adopt'
       - name: Build product-apim to get the distribution.
-        run: mvn clean install --file pom.xml -Dmaven.test.skip=true -DskipBenchMarkTest=true
+        run: mvn clean install -fae --file product-apim/pom.xml -DskipBenchMarkTest=true -DskipIntegrationTests=true
       - name: Build an image from Dockerfile
         run: |
           echo -e "

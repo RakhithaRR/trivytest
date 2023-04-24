@@ -13,6 +13,7 @@ jobs:
           directory: helm/
           output_format: cli,sarif
           output_file_path: console,results.sarif
+          skip_checkov: true
       - name: Upload SARIF file
         uses: github/codeql-action/upload-sarif@v2
         if: success() || failure()

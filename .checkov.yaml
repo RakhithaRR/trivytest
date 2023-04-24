@@ -1,0 +1,2 @@
+skip-path:
+  - helm/data-plane

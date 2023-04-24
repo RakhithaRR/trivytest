@@ -1,2 +1,3 @@
 skip-path:
   - data-plane
+  - cert-manager

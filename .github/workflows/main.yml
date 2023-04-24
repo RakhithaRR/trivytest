@@ -1,78 +1,78 @@
-name: SI Runner
-on: [push]
+# name: SI Runner
+# on: [push]
 
-jobs:
-  build_analytics:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout to Analytics
-        uses: actions/checkout@v3
-        with:
-          repository: 'wso2/carbon-analytics'
-          ref: 'master'
-      - name: Setup JDK 11
-        uses: actions/setup-java@v3
-        with:
-          java-version: '11'
-          distribution: 'temurin'
-      - name: Set up Maven
-        uses: stCarolas/setup-maven@v4.5
-        with:
-          maven-version: 3.6.3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: '8.x'
-      - name: Cache Maven
-        uses: actions/cache@v3
-        with:
-          path: ~/.m2
-          key: ${{ runner.os }}-m2
-          restore-keys: ${{ runner.os }}-m2
-      - name: Build Carbon Analytics
-        run: mvn clean install -Dmaven.test.skip=true -file pom.xml -e
+# jobs:
+#   build_analytics:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Checkout to Analytics
+#         uses: actions/checkout@v3
+#         with:
+#           repository: 'wso2/carbon-analytics'
+#           ref: 'master'
+#       - name: Setup JDK 11
+#         uses: actions/setup-java@v3
+#         with:
+#           java-version: '11'
+#           distribution: 'temurin'
+#       - name: Set up Maven
+#         uses: stCarolas/setup-maven@v4.5
+#         with:
+#           maven-version: 3.6.3
+#       - uses: actions/setup-node@v3
+#         with:
+#           node-version: '8.x'
+#       - name: Cache Maven
+#         uses: actions/cache@v3
+#         with:
+#           path: ~/.m2
+#           key: ${{ runner.os }}-m2
+#           restore-keys: ${{ runner.os }}-m2
+#       - name: Build Carbon Analytics
+#         run: mvn clean install -Dmaven.test.skip=true -file pom.xml -e
 
-  build_si:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout to Analytics
-        uses: actions/checkout@v3
-        with:
-          repository: 'wso2/carbon-analytics'
-          ref: 'master'
-      - name: Setup JDK 11
-        uses: actions/setup-java@v3
-        with:
-          java-version: '11'
-          distribution: 'temurin'
-      - name: Set up Maven
-        uses: stCarolas/setup-maven@v4.5
-        with:
-          maven-version: 3.6.3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: '8.x'
-      - name: Cache maven packages
-        uses: actions/cache@v3
-        with:
-          path: ~/.m2
-          key: ${{ runner.os }}-m2
-          restore-keys: ${{ runner.os }}-m2
-      - name: Build Carbon Analytics
-        run: mvn clean install -Dmaven.test.skip=true -file pom.xml -e
-      - name: Get carbon.analytics.version
-        run: mvn help:evaluate -Dexpression=project.version -q -DforceStdout > ../CARBON_ANALYTICS_VERSION_FILE
-      - name: Print carbon.analytics.version
-        run: |
-          echo $(cat ../CARBON_ANALYTICS_VERSION_FILE)
-      - name: Checkout Streaming Integrator
-        uses: actions/checkout@v3
-        with:
-          repository: wso2/streaming-integrator
-          ref: refs/heads/master
-          fetch-depth: '10'
-          path: streaming-integrator
-      - name: Build SI with tests
-        run: mvn clean install -Dcarbon.analytics.version=$(cat ../CARBON_ANALYTICS_VERSION_FILE) -fae --file streaming-integrator/pom.xml 
+#   build_si:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Checkout to Analytics
+#         uses: actions/checkout@v3
+#         with:
+#           repository: 'wso2/carbon-analytics'
+#           ref: 'master'
+#       - name: Setup JDK 11
+#         uses: actions/setup-java@v3
+#         with:
+#           java-version: '11'
+#           distribution: 'temurin'
+#       - name: Set up Maven
+#         uses: stCarolas/setup-maven@v4.5
+#         with:
+#           maven-version: 3.6.3
+#       - uses: actions/setup-node@v3
+#         with:
+#           node-version: '8.x'
+#       - name: Cache maven packages
+#         uses: actions/cache@v3
+#         with:
+#           path: ~/.m2
+#           key: ${{ runner.os }}-m2
+#           restore-keys: ${{ runner.os }}-m2
+#       - name: Build Carbon Analytics
+#         run: mvn clean install -Dmaven.test.skip=true -file pom.xml -e
+#       - name: Get carbon.analytics.version
+#         run: mvn help:evaluate -Dexpression=project.version -q -DforceStdout > ../CARBON_ANALYTICS_VERSION_FILE
+#       - name: Print carbon.analytics.version
+#         run: |
+#           echo $(cat ../CARBON_ANALYTICS_VERSION_FILE)
+#       - name: Checkout Streaming Integrator
+#         uses: actions/checkout@v3
+#         with:
+#           repository: wso2/streaming-integrator
+#           ref: refs/heads/master
+#           fetch-depth: '10'
+#           path: streaming-integrator
+#       - name: Build SI with tests
+#         run: mvn clean install -Dcarbon.analytics.version=$(cat ../CARBON_ANALYTICS_VERSION_FILE) -fae --file streaming-integrator/pom.xml 
       
       
 

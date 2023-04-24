@@ -7,10 +7,6 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
-        with:
-          repository: 'wso2/apk'
-          ref: 'main'
-
       - name: Checkov
         uses: bridgecrewio/checkov-action@v12
         with:

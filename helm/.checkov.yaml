@@ -1,3 +1,3 @@
 skip-path:
-  - data-plane
-  - cert-manager
+  - templates/data-plane
+  - templates/cert-manager

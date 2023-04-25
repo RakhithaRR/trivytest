@@ -1,0 +1,4 @@
+skip-path:
+  - helm/templates/data-plane
+  - helm/templates/cert-manager
+  - helm/charts/

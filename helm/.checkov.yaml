@@ -1,4 +1,0 @@
-skip-path:
-  - templates/data-plane
-  - templates/cert-manager
-  - charts/

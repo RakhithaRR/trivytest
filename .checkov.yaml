@@ -2,4 +2,7 @@ skip-path:
   - helm/templates/data-plane
   - helm/templates/cert-manager
   - helm/charts/
-framework: helm,kubernetes,secrets
+framework:
+  - helm
+  - kubernetes
+  - secrets

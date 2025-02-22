@@ -31,11 +31,11 @@ jobs:
             const patchIssues = issues;
             const patchIssueCount = patchIssues.length;
             const patchIssueNumbers = patchIssues.map(issue => issue.number);
-            return { patchIssueCount, patchIssues };
+            return { "count": patchIssueCount, "issues": patchIssues };
       - name: Echo patch issue count
         run: |
           echo "${{ steps.test123.outputs.result }}"
-          echo "Patch issue count: ${{ steps.gather-patch-issues.outputs.result.patchIssueCount }}"
+          echo "Patch issue count: ${{ steps.gather-patch-issues.outputs.result.count }}"
           echo "${{ steps.gather-patch-issues.outputs.result }}" 
       # - name: Send Patch Stats
       #   run: |

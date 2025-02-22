@@ -29,8 +29,7 @@ jobs:
       - name: Echo patch issue count
         run: |
           echo "Patch issue count: ${{ steps.gather-patch-issues.outputs.patchIssueCount }}"
-          echo "${{ steps.gather-patch-issues.outputs.patchIssues }}"
-      - 
+          echo "${{ steps.gather-patch-issues.outputs.patchIssues }}" 
       # - name: Send Patch Stats
       #   run: |
       #     curl --request POST "$WEBHOOK_URL" --header 'Content-Type: application/json' --data "{\"text\":\"Weekly Patch Stats\"}"

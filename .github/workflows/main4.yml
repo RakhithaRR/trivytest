@@ -22,15 +22,14 @@ jobs:
               state: 'all',
               since: new Date(new Date().setMonth(new Date().getMonth() - 2)).toISOString()
             });
-            const patchIssues = JSON.stringify(issues);
+            const patchIssues = issues;
             const patchIssueCount = patchIssues.length;
             const patchIssueNumbers = patchIssues.map(issue => issue.number);
-            echo "count=patchIssueCount" >> "$GITHUB_OUTPUT"
-
+            return { patchIssueCount, patchIssues };
       - name: Echo patch issue count
         run: |
-          echo "Patch issue count: ${{ steps.gather-patch-issues.outputs.count }}"
-          echo "${{ steps.gather-patch-issues.outputs.issues }}" 
+          echo "Patch issue count: ${{ steps.gather-patch-issues.outputs.patchIssueCount }}"
+          echo "${{ steps.gather-patch-issues.outputs.patchIssues }}" 
       # - name: Send Patch Stats
       #   run: |
       #     curl --request POST "$WEBHOOK_URL" --header 'Content-Type: application/json' --data "{\"text\":\"Weekly Patch Stats\"}"

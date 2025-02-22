@@ -22,7 +22,7 @@ jobs:
               state: 'all',
               since: new Date(new Date().setMonth(new Date().getMonth() - 2)).toISOString()
             });
-            const patchIssues = issues.filter(issue => issue.labels.some(label => label.name === 'Type/Patch'));
+            const patchIssues = issues;
             const patchIssueCount = patchIssues.length;
             const patchIssueNumbers = patchIssues.map(issue => issue.number);
             return { patchIssueCount, patchIssues };

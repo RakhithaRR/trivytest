@@ -14,7 +14,7 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
-            return "hello world"
+            return {"hello":"world"}
       - name: Gather patch issues created within last 2 months
         id: gather-patch-issues
         uses: actions/github-script@v6
@@ -34,7 +34,7 @@ jobs:
             return { "count": patchIssueCount, "issues": patchIssues };
       - name: Echo patch issue count
         run: |
-          echo "${{ steps.test123.outputs.result }}"
+          echo "${{ steps.test123.outputs.result.hello }}"
           echo "Patch issue count: ${{ steps.gather-patch-issues.outputs.result.count }}"
           echo "${{ steps.gather-patch-issues.outputs.result }}" 
       # - name: Send Patch Stats

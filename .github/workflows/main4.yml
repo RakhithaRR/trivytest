@@ -26,7 +26,6 @@ jobs:
             const patchIssueCount = patchIssues.length;
             const patchIssueNumbers = patchIssues.map(issue => issue.number);
             echo "count=patchIssueCount" >> "$GITHUB_OUTPUT"
-            echo "issues=patchIssues" >> "$GITHUB_OUTPUT"
 
       - name: Echo patch issue count
         run: |

@@ -27,7 +27,7 @@ jobs:
             const patchIssueNumbers = patchIssues.map(issue => issue.number);
             return { patchIssueCount, patchIssues };
       - name: Echo patch issue count
-        run |
+        run: |
           echo "Patch issue count: ${{ steps.gather-patch-issues.outputs.patchIssueCount }}"
           echo "${{ steps.gather-patch-issues.outputs.patchIssues }}"
       - 

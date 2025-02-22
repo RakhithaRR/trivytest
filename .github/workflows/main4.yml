@@ -1,0 +1,38 @@
+name: Send Patch Stats
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 20 * * 0'
+
+jobs:
+  send-notification:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Gather patch issues created within last 2 months
+        id: gather-patch-issues
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { owner, repo } = context.repo;
+            const { data: issues } = await github.rest.issues.listForRepo({
+              owner,
+              repo,
+              state: 'all',
+              since: new Date(new Date().setMonth(new Date().getMonth() - 2)).toISOString()
+            });
+            const patchIssues = issues.filter(issue => issue.labels.some(label => label.name === 'Type/Patch'));
+            const patchIssueCount = patchIssues.length;
+            const patchIssueNumbers = patchIssues.map(issue => issue.number);
+            return { patchIssueCount, patchIssues };
+      - name: Echo patch issue count
+        run |
+          echo "Patch issue count: ${{ steps.gather-patch-issues.outputs.patchIssueCount }}"
+          echo "${{ steps.gather-patch-issues.outputs.patchIssues }}"
+      - 
+      # - name: Send Patch Stats
+      #   run: |
+      #     curl --request POST "$WEBHOOK_URL" --header 'Content-Type: application/json' --data "{\"text\":\"Weekly Patch Stats\"}"
+      #   env:
+      #     WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}

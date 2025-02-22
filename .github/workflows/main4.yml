@@ -34,8 +34,8 @@ jobs:
             return { "count": patchIssueCount, "issues": patchIssues };
       - name: Echo patch issue count
         run: |
-          echo "${{ steps.test123.outputs.result }}" | jq .hello
-          echo "Patch issue count: ${{ steps.gather-patch-issues.outputs.result }}" | jq .count
+          echo '${{ steps.test123.outputs.result }}' | jq .hello
+          echo '${{ steps.gather-patch-issues.outputs.result }}' | jq .count
           echo "${{ steps.gather-patch-issues.outputs.result }}" 
       # - name: Send Patch Stats
       #   run: |
